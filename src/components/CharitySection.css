@@ -1,0 +1,51 @@
+.charity {
+  background: linear-gradient(135deg, var(--vert-fonce) 0%, var(--vert-moyen) 100%);
+  color: var(--jaune-moutarde);
+  padding: clamp(40px, 6vw, 70px) 0;
+  margin-top: 40px;
+  border-radius: var(--rayon-doux);
+  box-shadow: var(--ombre-forte);
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  scroll-margin-top: 110px;
+}
+
+/* Texture décorative */
+.charity::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 80% 20%, rgba(245, 200, 92, 0.12) 0%, transparent 40%),
+    radial-gradient(circle at 10% 90%, rgba(245, 200, 92, 0.1) 0%, transparent 40%);
+  pointer-events: none;
+}
+
+.charity__titre {
+  color: var(--jaune-moutarde);
+  font-size: clamp(1.5rem, 3vw, 2rem);
+  margin-bottom: 22px;
+  position: relative;
+}
+
+.charity__paragraphe {
+  color: rgba(255, 248, 225, 0.95);
+  font-size: clamp(1rem, 1.5vw, 1.12rem);
+  line-height: 1.85;
+  max-width: 920px;
+  margin: 0 auto 16px;
+  position: relative;
+}
+
+.charity__bouton {
+  margin-top: 18px;
+  background-color: var(--jaune-moutarde);
+  color: var(--vert-fonce);
+  position: relative;
+}
+
+.charity__bouton:hover {
+  background-color: var(--blanc);
+  color: var(--vert-fonce);
+}

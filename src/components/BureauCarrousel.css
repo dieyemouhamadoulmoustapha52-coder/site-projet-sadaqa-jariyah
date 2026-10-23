@@ -1,0 +1,241 @@
+.bureau {
+  overflow: hidden;
+}
+
+.bureau__cadre-conteneur {
+  position: relative;
+  max-width: 560px;
+  margin-inline: auto;
+  /* Même animation que le logo du hero : entrée douce puis flotaison continue */
+  animation: apparition-douce 0.8s ease both, flotaison-logo 2.6s ease-in-out 0.5s infinite;
+}
+
+/* Halo doré qui respire autour du cadre */
+.bureau__cadre-conteneur::after {
+  content: '';
+  position: absolute;
+  inset: -8px;
+  border-radius: calc(var(--rayon-doux) + 8px);
+  border: 2px solid rgba(245, 200, 92, 0.55);
+  box-shadow: 0 0 18px rgba(245, 200, 92, 0.35);
+  animation: halo-logo 1.8s ease-in-out infinite;
+  pointer-events: none;
+}
+
+.bureau__cadre {
+  position: relative;
+  max-width: 560px;
+  margin: 0 auto;
+  border-radius: var(--rayon-doux);
+  overflow: hidden;
+  background: linear-gradient(160deg, var(--vert-fonce) 0%, var(--vert-moyen) 100%);
+  padding: clamp(14px, 3vw, 24px);
+  box-shadow: var(--ombre-forte);
+  outline: none;
+  transition: transform var(--transition-fluide), box-shadow var(--transition-fluide);
+}
+
+/* Inclinaison au survol : même geste que le logo du hero.
+   Sur petit écran (fenêtre étroite), on limite l'angle pour que le cadre
+   et son halo ne soient pas rognés par le cadre de section (overflow). */
+.bureau__cadre:hover {
+  transform: rotate(3deg) scale(1.03);
+  box-shadow: 0 14px 34px rgba(245, 200, 92, 0.45);
+}
+
+@media (min-width: 768px) {
+  .bureau__cadre:hover {
+    transform: rotate(8deg) scale(1.06);
+  }
+}
+
+.bureau__cadre:focus-visible {
+  outline: 3px solid var(--jaune-moutarde);
+  outline-offset: 4px;
+}
+
+/* Zone d’image */
+.bureau__visuel {
+  border-radius: 10px;
+  overflow: hidden;
+  background: var(--blanc);
+  min-height: 220px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: fondu-visuel 0.55s ease both;
+}
+
+.bureau__image {
+  width: 100%;
+  height: auto;
+  max-height: 68vh;
+  object-fit: contain;
+  user-select: none;
+}
+
+/* Transitions d’entrée */
+.bureau__visuel--suivant {
+  animation-name: glisse-entrante-suivant;
+}
+
+.bureau__visuel--precedent {
+  animation-name: glisse-entrante-precedent;
+}
+
+@keyframes fondu-visuel {
+  from {
+    opacity: 0;
+    transform: scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes glisse-entrante-suivant {
+  from {
+    opacity: 0;
+    transform: translateX(48px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes glisse-entrante-precedent {
+  from {
+    opacity: 0;
+    transform: translateX(-48px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Boutons navigation */
+.bureau__bouton {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  background-color: rgba(245, 200, 92, 0.95);
+  color: var(--vert-fonce);
+  font-size: 1.8rem;
+  font-weight: 700;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+  transition: background-color var(--transition-fluide), transform var(--transition-fluide),
+    box-shadow var(--transition-fluide);
+  z-index: 2;
+}
+
+.bureau__bouton:hover {
+  background-color: var(--blanc);
+  transform: translateY(-50%) scale(1.1);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.35);
+}
+
+.bureau__bouton:active {
+  transform: translateY(-50%) scale(0.98);
+}
+
+.bureau__bouton--precedent {
+  left: clamp(4px, 2vw, 12px);
+}
+
+.bureau__bouton--suivant {
+  right: clamp(4px, 2vw, 12px);
+}
+
+/* Indicateurs / points */
+.bureau__indicateurs {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-top: 18px;
+}
+
+/* Le point reste petit visuellement, mais la zone de tapotement
+   est agrandie (padding transparent) pour le confort tactile. */
+.bureau__point {
+  width: 13px;
+  height: 13px;
+  padding: 12px;
+  background-clip: content-box;
+  background-color: rgba(27, 59, 45, 0.25);
+  border-radius: 50%;
+  transition: background-color var(--transition-fluide), transform var(--transition-fluide);
+}
+
+.bureau__point:hover {
+  background-color: rgba(27, 59, 45, 0.5);
+}
+
+.bureau__point--actif {
+  background-color: var(--vert-fonce);
+  transform: scale(1.15);
+}
+
+/* Compteur */
+.bureau__compteur {
+  margin-top: 14px;
+  font-size: 0.9rem;
+  color: var(--vert-moyen);
+  font-weight: 600;
+}
+
+/* État vide */
+.bureau__vide {
+  background: var(--blanc);
+  border: 2px dashed var(--vert-fonce);
+  border-radius: var(--rayon-doux);
+  padding: 40px 24px;
+  max-width: 620px;
+  margin: 0 auto;
+}
+
+.bureau__vide code {
+  background: var(--beige-clair);
+  padding: 3px 8px;
+  border-radius: 6px;
+  font-size: 0.9em;
+}
+
+.bureau__indice {
+  font-size: 0.9rem;
+  opacity: 0.85;
+}
+
+/* ---------------------------------------------------------
+   Responsive
+--------------------------------------------------------- */
+@media (max-width: 640px) {
+  .bureau__cadre {
+    padding: 12px;
+  }
+
+  .bureau__bouton {
+    width: 44px;
+    height: 44px;
+    font-size: 1.6rem;
+  }
+
+  .bureau__visuel {
+    min-height: 180px;
+  }
+
+  .bureau__image {
+    max-height: 58vh;
+  }
+}

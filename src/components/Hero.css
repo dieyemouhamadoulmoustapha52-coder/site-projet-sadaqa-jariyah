@@ -1,0 +1,98 @@
+.hero {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  background: linear-gradient(135deg, var(--vert-fonce) 0%, var(--vert-moyen) 100%);
+  color: var(--blanc);
+  padding: clamp(50px, 8vw, 90px) 0;
+  text-align: center;
+}
+
+/* Voile décoratif */
+.hero__voile {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background:
+    radial-gradient(circle at 15% 20%, rgba(245, 200, 92, 0.18) 0%, transparent 45%),
+    radial-gradient(circle at 85% 80%, rgba(245, 200, 92, 0.14) 0%, transparent 45%);
+}
+
+.hero__contenu {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Logo du hero : entrée, flotaison continue, halo doré et inclinaison
+   au survol (même geste que le petit logo de la barre de navigation). */
+.hero__logo-conteneur {
+  position: relative;
+  display: inline-flex;
+  margin-bottom: 22px;
+  animation: apparition-douce 0.8s ease both, flotaison-logo 2.6s ease-in-out 0.5s infinite;
+}
+
+/* Halo doré qui respire autour du logo */
+.hero__logo-conteneur::after {
+  content: '';
+  position: absolute;
+  inset: -8px;
+  border-radius: 50%;
+  border: 2px solid rgba(245, 200, 92, 0.55);
+  box-shadow: 0 0 18px rgba(245, 200, 92, 0.35);
+  animation: halo-logo 1.8s ease-in-out infinite;
+  pointer-events: none;
+}
+
+.hero__logo {
+  width: clamp(90px, 15vw, 130px);
+  height: clamp(90px, 15vw, 130px);
+  object-fit: contain;
+  background: var(--blanc);
+  border-radius: 50%;
+  padding: 10px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  transition: transform var(--transition-fluide), box-shadow var(--transition-fluide);
+}
+
+.hero__logo-conteneur:hover .hero__logo {
+  transform: rotate(8deg) scale(1.06);
+  box-shadow: 0 14px 34px rgba(245, 200, 92, 0.45);
+}
+
+.hero__logo-conteneur:active .hero__logo {
+  transform: rotate(-6deg) scale(0.97);
+}
+
+/* Clés d'animation partagées avec globals.css (flotaison-logo, halo-logo) */
+
+.hero__titre {
+  color: var(--jaune-moutarde);
+  font-size: clamp(1.7rem, 4.5vw, 2.6rem);
+  font-weight: 800;
+  letter-spacing: 0.6px;
+  margin-bottom: 14px;
+  animation: apparition-douce 0.8s ease 0.15s both;
+}
+
+.hero__sous-titre {
+  color: rgba(255, 255, 255, 0.92);
+  max-width: 640px;
+  font-size: clamp(0.95rem, 1.6vw, 1.15rem);
+  line-height: 1.7;
+  margin: 0 auto 28px;
+  animation: apparition-douce 0.8s ease 0.3s both;
+}
+
+.hero__bouton {
+  background-color: var(--jaune-moutarde);
+  color: var(--vert-fonce);
+  animation: apparition-douce 0.8s ease 0.45s both;
+}
+
+.hero__bouton:hover {
+  background-color: var(--blanc);
+  color: var(--vert-fonce);
+  transform: translateY(-3px) scale(1.03);
+}

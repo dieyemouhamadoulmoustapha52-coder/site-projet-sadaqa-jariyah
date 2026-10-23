@@ -1,0 +1,113 @@
+.structure {
+  overflow: hidden;
+}
+
+.structure__grille {
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+  gap: 22px;
+  flex-wrap: wrap;
+  margin-top: 10px;
+}
+
+/* Carte */
+.structure__carte {
+  position: relative;
+  background-color: var(--blanc);
+  border: 3px solid var(--vert-fonce);
+  border-radius: var(--rayon-doux);
+  padding: 26px 22px 22px;
+  flex: 1 1 280px;
+  min-width: 250px;
+  max-width: 360px;
+  text-align: center;
+  overflow: hidden;
+  cursor: default;
+  box-shadow: var(--ombre-douce);
+  transition: transform var(--transition-fluide), box-shadow var(--transition-fluide),
+    border-color var(--transition-fluide);
+  animation-duration: 0.7s;
+  animation-timing-function: ease;
+  animation-fill-mode: both;
+}
+
+.structure__carte--gauche {
+  animation-name: glisse-gauche;
+}
+
+.structure__carte--droite {
+  animation-name: glisse-droite;
+}
+
+/* Trait animé en bas */
+.structure__carte::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 0;
+  height: 3px;
+  background-color: var(--jaune-moutarde);
+  transition: width 0.45s ease;
+}
+
+/* Pastille d’accent */
+.structure__pastille {
+  display: block;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background-color: var(--jaune-moutarde);
+  margin: 0 auto 12px;
+  box-shadow: 0 0 0 5px rgba(245, 200, 92, 0.25);
+}
+
+/* Hover */
+.structure__carte:hover {
+  transform: translateY(-10px);
+  box-shadow: var(--ombre-forte);
+  border-color: var(--jaune-moutarde);
+}
+
+.structure__carte:hover::after {
+  width: 100%;
+}
+
+.structure__titre {
+  font-size: 1.15rem;
+  margin-bottom: 12px;
+  color: var(--vert-fonce);
+}
+
+.structure__description {
+  font-size: 0.95rem;
+  line-height: 1.65;
+  text-align: left;
+  margin-bottom: 0;
+}
+
+/* ---------------------------------------------------------
+   Responsive
+--------------------------------------------------------- */
+@media (max-width: 768px) {
+  .structure__grille {
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .structure__carte {
+    max-width: 92%;
+    transform: none;
+  }
+
+  .structure__carte:hover {
+    transform: none;
+    box-shadow: 0 10px 20px rgba(27, 59, 45, 0.15);
+  }
+
+  .structure__carte::after {
+    width: 100%;
+  }
+}

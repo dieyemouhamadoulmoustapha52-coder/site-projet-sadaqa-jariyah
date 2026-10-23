@@ -1,0 +1,7 @@
+.section-texte {
+  animation: apparition-douce 0.7s ease both;
+}
+
+.section-texte__paragraphe:last-child {
+  margin-bottom: 0;
+}

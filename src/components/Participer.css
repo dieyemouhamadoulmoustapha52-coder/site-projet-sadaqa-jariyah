@@ -1,0 +1,27 @@
+.participer {
+  animation: apparition-douce 0.7s ease both;
+}
+
+.participer__paragraphe:last-of-type {
+  margin-bottom: 8px;
+}
+
+.participer__bouton {
+  margin-top: 14px;
+  max-width: 560px;
+  text-align: center;
+}
+
+.participer__icone {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+@media (max-width: 480px) {
+  .participer__bouton {
+    font-size: 0.95rem;
+    padding: 14px 20px;
+  }
+}

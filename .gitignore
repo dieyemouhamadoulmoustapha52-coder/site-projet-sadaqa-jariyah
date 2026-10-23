@@ -1,0 +1,20 @@
+# Dépendances
+node_modules/
+
+# Build de production
+dist/
+
+# Variables d'environnement (secrets, liens privés…)
+.env
+.env.*
+!.env.example
+
+# Sauvegardes locales (cartes membres originales contenant des données perso)
+.sauvegarde-cartes-originales/
+
+# Fichiers système / éditeurs
+.DS_Store
+Thumbs.db
+*.local
+.vscode/
+.idea/
