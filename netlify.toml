@@ -1,0 +1,9 @@
+# Configuration Netlify — Projet Sadaqa Jariyah
+# Build statique Vite (pas de redirection SPA : le site est une page unique).
+
+# Image d'aperçu réseaux sociaux : cache long, évite les re-téléchargements
+# et garantit que WhatsApp/Facebook servent la bonne version.
+[[headers]]
+  for = "/og-image.png"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
