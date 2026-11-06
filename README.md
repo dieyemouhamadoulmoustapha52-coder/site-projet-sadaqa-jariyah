@@ -62,6 +62,8 @@ site-projet-sadaqa-jariyah/
 ├── index.html                  # Point d'entrée HTML
 ├── vite.config.js              # Configuration Vite
 ├── .env.example                # Modèle de variable d'environnement
+├── scripts/
+│   └── deploy-netlify.sh       # Déploiement Netlify (cartes originales)
 │
 ├── src/
 │   ├── App.jsx                 # Composition globale des sections
@@ -120,9 +122,22 @@ site-projet-sadaqa-jariyah/
 
 ## 📦 Déploiement
 
-1. Effectuer un build de production : `npm run build`.
-2. Déployer le contenu du dossier `dist/` sur la plateforme cible (GitHub Pages, Netlify, Vercel…).
-3. Renseigner la variable `VITE_LIEN_WHATSAPP` dans les paramètres d'environnement de la plateforme avant le build.
+### Politique des cartes membres
+| Cible | Version des cartes |
+|---|---|
+| **GitHub** (dépôt public) | **Anonymisées** — nom + rôle uniquement |
+| **Site Netlify** (production) | **Originales** — avec les infos du bureau |
+
+Les originales sont conservées hors versionnement dans `.sauvegarde-cartes-originales/` (ignoré par git).
+
+### Procédure
+1. S'assurer que l'arbre de travail est propre (`git status`).
+2. Lancer le déploiement :
+   ```bash
+   ./scripts/deploy-netlify.sh
+   ```
+   Le script injecte les cartes originales, build, déploie sur Netlify puis **restaure automatiquement** les cartes anonymisées (même en cas d'échec).
+3. La variable `VITE_LIEN_WHATSAPP` est lue dans `.env` au build (fichier jamais versionné).
 
 ---
 *Build vérifié ✓ — document technique du projet Sadaqa Jariyah.*
