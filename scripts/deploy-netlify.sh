@@ -9,6 +9,26 @@
 # Ce script injecte temporairement les originales (ignorées par git) pour le
 # build de production, déploie sur Netlify, puis restaure systématiquement les
 # versions anonymisées dans l'arbre de travail — même en cas d'échec.
+#
+# FLUX (5 étapes) :
+#   0. trap EXIT      → restauration git garantie à la fin (succès ou échec)
+#   1. vérifications  → dossier originales présent, arbre git propre sur
+#                       cartes-membres/, présence de .env (warning)
+#   2. injection      → cp .sauvegarde-cartes-originales/*.png
+#                       → src/assets/cartes-membres/  (temporaire, hors git)
+#   3. build          → npm run build (Vite → dist/ avec cartes complètes +
+#                       VITE_LIEN_WHATSAPP lu dans .env)
+#   4. deploy         → netlify deploy --dir dist --prod --no-build
+#                       (--no-build : ne PAS rebuilder sur Netlify, sinon les
+#                       cartes anonymisées du dépôt seraient utilisées)
+#   5. restauration   → git checkout -- src/assets/cartes-membres/
+#                       (déclenché par le trap, voir étape 0)
+#
+# Utilisation :
+#   netlify login          # une seule fois
+#   ./scripts/deploy-netlify.sh
+#
+# Voir aussi : README.md → section « Déploiement »
 # =============================================================================
 set -euo pipefail
 
@@ -19,7 +39,10 @@ ORIGINALES="$ROOT/.sauvegarde-cartes-originales"
 
 cd "$ROOT"
 
-# --- Restauration garantie des cartes anonymisées (git) ----------------------
+# --- Étape 0 : restauration garantie des cartes anonymisées ------------------
+# trap EXIT = s'exécute toujours à la sortie du script, quel que soit le
+# résultat (succès, erreur set -e, Ctrl+C…). Empêche toute donnée réelle de
+# rester dans l'arbre de travail git.
 restore_anonymized() {
   local code=$?
   git checkout -- src/assets/cartes-membres/ 2>/dev/null || true
@@ -29,7 +52,7 @@ restore_anonymized() {
 }
 trap restore_anonymized EXIT
 
-# --- Vérifications préalables -----------------------------------------------
+# --- Étape 1 : vérifications préalables --------------------------------------
 if [[ ! -d "$ORIGINALES" ]]; then
   echo "✘ Dossier des originales introuvable : $ORIGINALES" >&2
   exit 1
@@ -45,15 +68,15 @@ if [[ ! -f .env ]]; then
   echo "⚠ Fichier .env absent — build sans VITE_LIEN_WHATSAPP" >&2
 fi
 
-# --- 1. Injection des cartes originales (données réelles, hors git) ---------
+# --- Étape 2 : injection des cartes originales (données réelles, hors git) ---
 echo "→ Injection des cartes originales pour le build…"
 cp -f "$ORIGINALES"/*.png "$SRC_CARTES/"
 
-# --- 2. Build de production --------------------------------------------------
+# --- Étape 3 : build de production -------------------------------------------
 echo "→ Build de production…"
 npm run build
 
-# --- 3. Déploiement Netlify (production) -------------------------------------
+# --- Étape 4 : déploiement Netlify (production) ------------------------------
 echo "→ Déploiement sur Netlify…"
 netlify deploy \
   --site "$SITE_ID" \
@@ -64,4 +87,4 @@ netlify deploy \
 
 echo
 echo "🚀 Déploiement terminé → https://projet-sadaqa-jarirah.netlify.app"
-# le trap restaure les cartes anonymisées à la sortie
+# Étape 5 : le trap EXIT (étape 0) restaure les cartes anonymisées
